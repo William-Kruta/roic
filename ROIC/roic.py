@@ -4,8 +4,8 @@ from .utils import clean_dataframe
 
 
 class ROIC:
-    def __init__(self):
-        self.scraper = Scraper()
+    def __init__(self, headless: bool = True, log: bool = False):
+        self.scraper = Scraper(headless, log)
 
     def scrape_summary(self, ticker: str):
         url = "https://www.roic.ai/quote/{}"

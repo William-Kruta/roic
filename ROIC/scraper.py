@@ -12,8 +12,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class Scraper:
-    def __init__(self, headless: bool = False, wait_time: int = 5):
+    def __init__(self, headless: bool = False, log: bool = False, wait_time: int = 5):
         self.headless = headless
+        self.log = log
         self.wait_time = wait_time
         self.driver = None
         self.wait = None
@@ -41,10 +42,7 @@ class Scraper:
 
     def read_text(self, xpath: str) -> str:
         data = self.wait.until(EC.visibility_of_element_located((By.XPATH, xpath)))
-        print(f"DATA: {data.text}")
         return data.text
-        # data = self.driver.find_element(By.XPATH, xpath)
-        # return data.text
 
     def read_text_by_tag(self, tag: str):
         data = self.driver.find_element(By.TAG_NAME, tag)
@@ -60,7 +58,6 @@ class Scraper:
         SKIP_INDEX: int = -1,
         split_cols: bool = True,
     ):
-        print(f"MIN: {min_col} Max: {max_col}")
         data = {}
         running = True
         while running:
@@ -75,6 +72,8 @@ class Scraper:
                             key = key.split(" ")[0]
                         xpath = base_xpath.format(row_index, i)
                         text = self.read_text(xpath)
+                        if self.log:
+                            print(f"[Data Collected]: {text}")
                         try:
                             data[key].append(text)
                         except KeyError:

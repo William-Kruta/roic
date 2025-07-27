@@ -1,4 +1,4 @@
-from src.ROIC.roic import ROIC
+from ROIC.roic import ROIC
 
 
 if __name__ == "__main__":
